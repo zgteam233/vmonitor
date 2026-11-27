@@ -1,0 +1,23 @@
+# Operating systems
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.suo
+*.user
+*.sln.docstates
+
+# Logs and caches
+*.log
+*.tmp
+.cache/
+.npm/
+
+# Local environment and dependencies
+.env
+.env.*
+!.env.example
+node_modules/

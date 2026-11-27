@@ -1,0 +1,34 @@
+*{box-sizing:border-box}
+body{margin:0;background:#080d14;color:#dce7f2;font-family:Consolas,"Microsoft YaHei",sans-serif}
+header{padding:16px 22px;background:#111b29;border-bottom:1px solid #29394d;display:flex;justify-content:space-between;align-items:center}
+header h2{margin:0;color:#45d5ff}
+.container{max-width:1500px;margin:auto;padding:18px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.panel{background:#111b29;border:1px solid #29394d;border-radius:8px;padding:14px;margin-bottom:12px}
+.panel h3{font-size:14px;color:#9ab8d5;margin:0 0 12px}
+.metric{font-size:29px;font-weight:bold}
+.unit{font-size:12px;color:#7d93a9}
+.green{color:#43f5a0}
+.yellow{color:#ffd166}
+.red{color:#ff5c68}
+.blue{color:#45d5ff}
+.monitor{background:#050a0b;border:1px solid #244139;padding:10px;border-radius:7px;margin-bottom:10px}
+.trace-header{display:flex;justify-content:space-between;align-items:center;padding:5px 7px;font-size:13px}
+.trace-header strong{font-size:15px}
+canvas{width:100%;height:115px;display:block}
+.main{display:grid;grid-template-columns:1.5fr 1fr;gap:12px}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+button{padding:12px 7px;border-radius:5px;border:1px solid #38516b;background:#1b3047;color:white;cursor:pointer}
+button:hover{background:#315575}
+button:disabled{opacity:.4;cursor:not-allowed}
+.danger-btn{border-color:#a63d49;background:#5a2630}
+.danger-btn:hover{background:#7a303b}
+.defib-actions{margin-top:12px}
+.log{height:200px;overflow:auto;background:#080e16;padding:9px;font-size:12px;line-height:1.8}
+.log div{border-bottom:1px solid #1b2a3b}
+.info{font-size:12px;color:#8199b1;line-height:1.8}
+.row{display:flex;justify-content:space-between;gap:8px}
+select{background:#172b40;color:white;padding:8px;border:1px solid #45617c;border-radius:5px}
+.bar{height:7px;background:#283a4e;border-radius:5px;overflow:hidden}
+.bar div{height:100%;background:#ff5967}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.main{grid-template-columns:1fr}}

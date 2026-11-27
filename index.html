@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ICU 重症急救模拟器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h2>✚ ICU 重症急救模拟器</h2>
+    <div id="status" class="red">● CRITICAL</div>
+</header>
+
+<div class="container">
+
+    <div class="grid">
+        <div class="panel">
+            <h3>♥ ECG / HR</h3>
+            <div class="metric green" id="hr">120</div>
+            <span class="unit">BPM</span>
+        </div>
+        <div class="panel">
+            <h3>SpO₂</h3>
+            <div class="metric blue" id="spo2">88</div>
+            <span class="unit">%</span>
+        </div>
+        <div class="panel">
+            <h3>NIBP</h3>
+            <div class="metric yellow" id="bp">85/50</div>
+            <span class="unit">mmHg</span>
+        </div>
+        <div class="panel">
+            <h3>MAP</h3>
+            <div class="metric yellow" id="map">62</div>
+            <span class="unit">mmHg</span>
+        </div>
+        <div class="panel">
+            <h3>EtCO₂</h3>
+            <div class="metric green" id="co2">28</div>
+            <span class="unit">mmHg</span>
+        </div>
+    </div>
+
+    <div class="main">
+        <section>
+            <div class="panel">
+                <div class="row">
+                    <h3>多参数床旁监护仪</h3>
+                    <select id="speed">
+                        <option value="1">25 mm/s</option>
+                        <option value="2">50 mm/s</option>
+                        <option value="0.5">12.5 mm/s</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="rhythmSelect">心律</label>
+                    <select id="rhythmSelect">
+                        <option value="sinus">正常窦性心律</option>
+                        <option value="tachy">窦性心动过速</option>
+                        <option value="af">心房颤动 AF</option>
+                        <option value="svt">室上性心动过速 SVT</option>
+                        <option value="afl">心房扑动 AFL</option>
+                        <option value="vt">室性心动过速 VT</option>
+                        <option value="vf">心室颤动 VF</option>
+                        <option value="rbbb">右束支传导阻滞 RBBB</option>
+                        <option value="lbbb">左束支传导阻滞 LBBB</option>
+                        <option value="av1">一度房室传导阻滞</option>
+                        <option value="av2_1">二度 I 型房室传导阻滞</option>
+                        <option value="av2_2">二度 II 型房室传导阻滞</option>
+                        <option value="av3">三度房室传导阻滞</option>
+                        <option value="asystole">心室停搏 Asystole</option>
+                    </select>
+                </div>
+
+                <div class="monitor">
+                    <div class="trace-header">
+                        <strong style="color:#43f5a0">ECG II</strong>
+                        <span id="ecgLabel">HR 120 BPM</span>
+                    </div>
+                    <canvas id="ecg"></canvas>
+                    <div class="info">Lead II · P-Q-R-S-T · 实时模拟心电波形</div>
+                </div>
+
+                <div class="monitor">
+                    <div class="trace-header">
+                        <strong style="color:#43caff">Pleth / SpO₂</strong>
+                        <span id="plethLabel">SpO₂ 88%</span>
+                    </div>
+                    <canvas id="pleth"></canvas>
+                    <div class="info">脉搏容积描记波 · Peripheral pulse waveform</div>
+                </div>
+
+                <div class="monitor">
+                    <div class="trace-header">
+                        <strong style="color:#ffd166">NIBP</strong>
+                        <span id="nibpLabel">85/50 (62)</span>
+                    </div>
+                    <canvas id="nibp"></canvas>
+                    <div class="info">模拟动脉压力波 · Systolic / Diastolic / MAP</div>
+                </div>
+
+                <div class="monitor">
+                    <div class="trace-header">
+                        <strong style="color:#43f5a0">CO₂ / Capnogram</strong>
+                        <span id="co2Label">EtCO₂ 28 mmHg</span>
+                    </div>
+                    <canvas id="capno"></canvas>
+                    <div class="info">呼气末二氧化碳 · Phase I / II / III / 0</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>患者信息</h3>
+                <div class="row">
+                    <span>患者 #001 · 男 · 58 岁</span>
+                    <span id="conscious" class="red">意识模糊</span>
+                </div>
+                <p>主诉：胸闷、呼吸困难、意识模糊</p>
+                <p>初步情况：循环功能不稳定，低氧血症</p>
+                <p>模拟病情：<span id="condition" class="red">危重</span></p>
+                <p class="info">注：NIBP 数值采用模拟间歇测量；波形为模拟动脉压力曲线，并非真实袖带测量。</p>
+            </div>
+        </section>
+
+        <aside>
+            <div class="panel">
+                <h3>急救操作台</h3>
+                <div class="actions">
+                    <button data-action="assessment">初步评估</button>
+                    <button data-action="call">呼叫急救团队</button>
+                    <button data-action="oxygen">氧疗支持</button>
+                    <button data-action="airway">气道管理</button>
+                    <button data-action="monitor">连接监护仪</button>
+                    <button data-action="iv">建立静脉通路</button>
+                    <button data-action="cpr">模拟 CPR</button>
+                    <button data-action="reassess">重新评估</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>手动除颤仪 / MANUAL DEFIBRILLATOR</h3>
+                <div class="monitor">
+                    <div class="row">
+                        <strong class="green">DEFIB MONITOR</strong>
+                        <span id="defibState">READY</span>
+                    </div>
+                    <div class="metric green" id="energyDisplay">0</div>
+                    <span class="unit">SIMULATED ENERGY (J)</span>
+                    <div class="bar"><div id="chargeBar" style="width:0%"></div></div>
+                    <p class="info" id="syncStatus">SYNC: OFF</p>
+                    <p class="info" id="shockStatus">等待操作</p>
+                    <div class="row">
+                        <span>最近一次电击结果</span>
+                        <strong id="shockResult">暂无</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="energySelect">模拟能量档位 (J)</label>
+                    <select id="energySelect">
+                        <option value="50">50 J</option>
+                        <option value="100">100 J</option>
+                        <option value="150">150 J</option>
+                        <option value="200">200 J</option>
+                        <option value="250">250 J</option>
+                        <option value="300">300 J</option>
+                        <option value="360">360 J</option>
+                    </select>
+                </div>
+                <div class="actions defib-actions" id="defibActions">
+                    <button data-defib-action="charge">CHARGE 充电</button>
+                    <button data-defib-action="sync" id="syncButton">SYNC OFF</button>
+                    <button data-defib-action="shock" class="danger-btn">⚡ SHOCK 放电</button>
+                    <button data-defib-action="cancel">CANCEL 取消</button>
+                </div>
+                <p class="info">手动模拟模式；能量档位与成功率仅供本模拟器使用，不对应临床设备参数。</p>
+            </div>
+
+            <div class="panel">
+                <h3>自动病情演化 / AUTO RHYTHM</h3>
+                <label>
+                    <input type="checkbox" id="autoRhythm">
+                    启用自动节律模式
+                </label>
+                <p class="info">模拟病情可能变化、恶化或发生心搏骤停；自动模式不会保证自行恢复。</p>
+                <div class="row">
+                    <label for="eventRate">事件频率</label>
+                    <select id="eventRate">
+                        <option value="slow">低</option>
+                        <option value="normal" selected>正常</option>
+                        <option value="high">高</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <span>当前事件</span>
+                    <strong id="autoEvent">无</strong>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>呼吸参数</h3>
+                <div class="row"><span>呼吸频率 RR</span><b id="rr">30 /min</b></div>
+                <div class="row"><span>FiO₂</span><b id="fio2">21%</b></div>
+                <div class="row"><span>EtCO₂</span><b id="co2b">28 mmHg</b></div>
+                <div class="row"><span>呼吸状态</span><b id="resp">异常</b></div>
+            </div>
+
+            <div class="panel">
+                <h3>无尽模式 - 运行时间</h3>
+                <div class="metric yellow" id="timer">00:00</div>
+                <div class="bar"><div id="timebar" style="width:100%"></div></div>
+                <p class="info">模拟事件可能导致患者病情恶化。</p>
+            </div>
+
+            <div class="panel">
+                <h3>抢救评分</h3>
+                <div class="metric green" id="score">0</div>
+                <span class="unit">POINTS</span>
+            </div>
+
+            <div class="panel">
+                <h3>事件日志</h3>
+                <div class="log" id="log"></div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
